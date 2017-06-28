@@ -1,0 +1,70 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!-- 第一种方式：加载一个properties文件 -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:db.properties"/>
+    </bean>
+    <!-- 配置数据源 destroy-method="close"-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${driverClasss}"/>
+        <property name="jdbcUrl" value="${jdbcUrl}"/>
+        <property name="user" value="${user}"/>
+        <property name="password" value="${password}"/>
+        <!--初始化连接大小 -->
+       <property name="initialPoolSize" value="${initialSize}"></property>
+       <!-- 连接池最大数量 maxActive-->
+       <property name="maxPoolSize" value="${maxActive}"></property>
+       <!-- 连接池最大空闲maxIdle -->
+       <property name="maxIdleTime" value="${maxIdle}"></property>
+       <!-- 连接池最小空闲 -->
+      <!-- <property name="" value="${minIdle}"></property>-->
+       <!-- 获取连接最大等待时间 -->
+       <!--<property name="" value="${maxWait}"></property>-->
+    </bean>
+
+    <!-- 核心事务管理器 -->
+    <bean name="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager" >
+        <property name="sessionFactory" ref="sessionFactory" ></property>
+    </bean>
+
+    <bean name="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" >
+        <property name="dataSource" ref="dataSource" ></property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect" >org.hibernate.dialect.MySQLInnoDBDialect</prop>
+                <!--  可选配置 -->
+                <prop key="hibernate.show_sql" >true</prop>
+                <prop key="hibernate.format_sql" >true</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <!--配置二级缓存-->
+                <!-- <prop key="hibernate.cache.use_second_level_cache">true</prop>
+                <prop key="hibernate.cache.use_query_cache">true</prop>
+                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
+                <prop key="hibernate.net.sf.ehcache.configurationResourceName">classpath:ehcache.xml</p rop>-->
+            </props>
+        </property>
+        <!-- hibernate映射文件的位置 -->
+        <property name="mappingDirectoryLocations">
+            <list>
+                <value>classpath:hibernate</value>
+            </list>
+        </property>
+    </bean>
+    <!-- 对注解提供支持 -->
+    <context:annotation-config/>
+    <!--组件扫描-->
+    <context:component-scan base-package="com.chason.ssh"/>
+    <!--事务的注解驱动-->
+    <tx:annotation-driven transaction-manager="transactionManager" />
+
+</beans>

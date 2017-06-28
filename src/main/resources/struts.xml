@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<!-- 整合的常量 -->
+	<constant name="struts.objectFactory" value="spring"></constant>
+	<!--字符集-->
+	<constant name="struts.i18n.encoding" value="utf-8"></constant>
+	<!-- 开发模式 -->
+	<constant name="struts.devMode" value="true" />
+	<!-- struts的Action访问后缀-->
+	<constant name="struts.action.extension" value="do"/>
+	<!-- 指定表单主题 -->
+	<constant name="struts.ui.theme" value="simple"/>
+	<!--加入的xml-->
+	<include file="struts/struts-role.xml"></include>
+</struts>

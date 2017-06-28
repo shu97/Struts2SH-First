@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.chason.ssh.pojo">
+    <class name="User" table="oa_user">
+        <id name="id">
+            <generator class="native"></generator>
+        </id>
+        <property name="loginName" length="32"/>
+        <property name="name"></property>
+        <property name="password"></property>
+        <property name="phone"></property>
+        <property name="email"></property>
+        <property name="gender"></property>
+        <property name="description"></property>
+        <many-to-one name="department" column="department_id" class="Department"/>
+        <set name="roles" table="oa_user_role">
+            <key column="user_id"></key>
+            <many-to-many class="Role" column="role_id"/>
+        </set>
+    </class>
+    
+</hibernate-mapping>

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Struts2SH-First:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="SSH-01.war">
+      <element id="artifact" artifact-name="Struts2SH-First:war exploded" />
+    </root>
+  </artifact>
+</component>
